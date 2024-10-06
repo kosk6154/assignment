@@ -5,10 +5,7 @@ import com.example.assignment.common.model.enums.ClothType;
 import com.example.assignment.common.model.exception.CoordinationException;
 import com.example.assignment.common.model.exception.ExceptionMessage;
 import com.example.assignment.coordinationapi.application.cache.ClothPriceCacheProvider;
-import com.example.assignment.coordinationapi.application.model.coordination.BrandIdSum;
-import com.example.assignment.coordinationapi.application.model.coordination.CheapestBrand;
-import com.example.assignment.coordinationapi.application.model.coordination.ClothInfo;
-import com.example.assignment.coordinationapi.application.model.coordination.MinMaxPriceCategory;
+import com.example.assignment.coordinationapi.application.model.coordination.*;
 import com.example.assignment.coordinationapi.application.repo.BrandRepo;
 import com.example.assignment.coordinationapi.application.repo.SaleClothRepo;
 import com.example.assignment.coordinationapi.application.service.SaleClothService;
@@ -18,6 +15,11 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 판매중인 상품을 조건에 따라 응답할 때 사용된다.
+ * @author kokyeomjae
+ * @version 0.0.1
+ */
 @Service
 @RequiredArgsConstructor
 public class SaleClothServiceImpl implements SaleClothService {
@@ -48,14 +50,16 @@ public class SaleClothServiceImpl implements SaleClothService {
     }
 
     @Override
-    public ClothInfo getCheapestCloth(ClothType clothType) {
+    public ClothInfoWithName getCheapestCloth(ClothType clothType) {
         ClothInfo clothInfo = this.clothPriceCacheProvider.getCheapestCloth(clothType);
 
         if(clothInfo == null) {
-            return this.saleClothRepo.getCheapestCloth(clothType);
+            clothInfo = this.saleClothRepo.getCheapestCloth(clothType);
         }
 
-        return clothInfo;
+        String brandName = this.clothPriceCacheProvider.getBrandName(clothInfo.getBrandId());
+
+        return new ClothInfoWithName(clothInfo.getCategory(), brandName, clothInfo.getClothName(), clothInfo.getPrice());
     }
 
     @Override

@@ -3,12 +3,18 @@ package com.example.assignment.coordinationapi.application.model;
 import com.example.assignment.common.model.exception.CoordinationException;
 import com.example.assignment.common.model.exception.ExceptionMessage;
 import lombok.Getter;
-import org.springdoc.api.ErrorMessage;
 
+/**
+ * 공통으로 사용하는 응답 반환 객체
+ *
+ * @author kokyeomjae
+ * @version 0.0.1
+ * @param <T>
+ */
 @Getter
 public class ResponseBase<T> {
-    private boolean success;
-    private ExceptionBase exception;
+    private boolean success; // 성공일 경우 true
+    private ExceptionBase exception; // 성공이 아닐 경우만 객체가 담김, 그렇지 않을 경우 null
     private T payload;
 
     public static <T> ResponseBase<T> of(boolean success, Exception exception, T payload){

@@ -30,6 +30,10 @@ public class AssignmentInitializer {
 
     private static boolean isInitialized = false;
 
+    /**
+     * ApplicationReadyEvent는 경우에 따라 여러번 발생할 수 있다.
+     * 최초 한번만 init 하게끔 flag로 제어하고 synchronized 처리한다.
+     */
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public synchronized void initializeData() {
@@ -38,6 +42,7 @@ public class AssignmentInitializer {
             this.clothCategoryRepo.saveAll(AssignmentData.CATEGORY_DATA.values());
 
             // 상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리 총 8개 * 브랜드 개수
+            // 사전에 개수를 어느정도 예상할 수 있는경우 collection 생성자에 크기를 초기화 하여 넣어주는게 성능에 유리하다.
             List<SaleCloth> saleClothList = new ArrayList<>(AssignmentData.BRAND_DATA.size() * 8);
 
             for (String brandStr : AssignmentData.SALES_DATA.keySet()) {

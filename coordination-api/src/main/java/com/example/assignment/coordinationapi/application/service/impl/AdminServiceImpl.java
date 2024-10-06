@@ -4,9 +4,9 @@ import com.example.assignment.common.model.entity.Brand;
 import com.example.assignment.common.model.entity.ClothCategory;
 import com.example.assignment.common.model.entity.SaleCloth;
 import com.example.assignment.common.model.enums.ClothType;
-import com.example.assignment.coordinationapi.application.cache.ClothPriceCacheProvider;
 import com.example.assignment.common.model.exception.CoordinationException;
 import com.example.assignment.common.model.exception.ExceptionMessage;
+import com.example.assignment.coordinationapi.application.cache.ClothPriceCacheProvider;
 import com.example.assignment.coordinationapi.application.repo.BrandRepo;
 import com.example.assignment.coordinationapi.application.repo.ClothCategoryRepo;
 import com.example.assignment.coordinationapi.application.repo.SaleClothRepo;
@@ -18,6 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
+/**
+ * 브랜드나 상품을 추가, 수정, 삭제 시 사용된다.
+ * @author kokyeomjae
+ * @version 0.0.1
+ */
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {

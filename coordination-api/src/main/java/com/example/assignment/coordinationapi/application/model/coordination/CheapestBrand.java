@@ -9,7 +9,7 @@ public record CheapestBrand(String brand,
 
     public record CategoryPrice(String category, BigDecimal price) {
         public static CategoryPrice of(ClothInfo clothInfo) {
-            return new CategoryPrice(clothInfo.getCategory().getCode(), clothInfo.getPrice());
+            return new CategoryPrice(clothInfo.getCategory().name(), clothInfo.getPrice());
         }
     }
 

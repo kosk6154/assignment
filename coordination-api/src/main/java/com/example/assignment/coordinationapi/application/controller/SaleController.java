@@ -3,7 +3,7 @@ package com.example.assignment.coordinationapi.application.controller;
 import com.example.assignment.common.model.enums.ClothType;
 import com.example.assignment.coordinationapi.application.model.ResponseBase;
 import com.example.assignment.coordinationapi.application.model.coordination.CheapestBrand;
-import com.example.assignment.coordinationapi.application.model.coordination.ClothInfo;
+import com.example.assignment.coordinationapi.application.model.coordination.ClothInfoWithName;
 import com.example.assignment.coordinationapi.application.model.coordination.MinMaxPriceCategory;
 import com.example.assignment.coordinationapi.application.service.SaleClothService;
 import com.example.assignment.coordinationapi.configuration.AssignmentData;
@@ -18,6 +18,9 @@ import java.util.List;
 /**
  * 서비스에서 사용하기 위한 controller
  * endpoint가 많지 않기 때문에 한곳에서 관리한다.
+ *
+ * @author kokyeomjae
+ * @version 0.0.1
  */
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +34,7 @@ public class SaleController {
      * @return
      */
     @GetMapping("/category/cheapest")
-    public ResponseBase<List<ClothInfo>> getCheapestClothPerCategory() {
+    public ResponseBase<List<ClothInfoWithName>> getCheapestClothPerCategory() {
         return ResponseBase.success(
                 AssignmentData.REQUIRED_CATEGORY.stream()
                         .map(this.saleClothService::getCheapestCloth)

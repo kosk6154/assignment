@@ -6,6 +6,7 @@ import com.example.assignment.common.model.enums.ClothType;
 import com.example.assignment.coordinationapi.application.model.coordination.CheapestBrand;
 import com.example.assignment.coordinationapi.application.model.coordination.ClothInfo;
 import com.example.assignment.coordinationapi.application.repo.SaleClothRepo;
+import com.example.assignment.coordinationapi.configuration.AssignmentData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -31,13 +32,13 @@ public class InMemoryClothPriceCacheProvider implements ClothPriceCacheProvider 
      * 브랜드별 / 카테고리별로 모든 품목을 가격별로 정렬하여 유지한다.
      * 단 sorted map 특성 상 중복 가격에 대한 상품은 허용되지 않는다.
      */
-    private final Map<Integer, HashMap<ClothType, SortedMap<ClothInfo, ClothInfo>>> brandSaleCache = new HashMap<>();
+    private final Map<Integer, HashMap<ClothType, SortedMap<ClothInfo, ClothInfo>>> brandSaleCache = new HashMap<>(AssignmentData.BRAND_DATA.size());
 
     /*
      * 카테고리별로 모든 품목을 가격별로 정렬하여 유지한다.
      * 마찬가지로 sorted map 특성 상 중복 가격에 대한 상품은 허용되지 않는다.
      */
-    private final Map<ClothType, SortedMap<ClothInfo, ClothInfo>> categorySaleCache = new HashMap<>();
+    private final Map<ClothType, SortedMap<ClothInfo, ClothInfo>> categorySaleCache = new HashMap<>(8); // 상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리 총 8개
 
     // 브랜드의 이름을 캐싱한다.
     private final Map<Integer, String> brandNameCache = new HashMap<>();
@@ -99,7 +100,8 @@ public class InMemoryClothPriceCacheProvider implements ClothPriceCacheProvider 
 
         // 브랜드에서 캐시에 있는 최소가격의 상품의 가격을 올리는 경우.
         // treemap은 중복된 가격을 유지하지 않으므로 동일한 최소가격의 다른 상품이 캐시에 없을 가능성이 존재한다.
-        // 아래 조건문들에 걸려 DB까지 조회되어 갱신되는 경우는 거의 낮다.
+        // 따라서 가장 저렴한 가격의 상품을 갱신하거나, 새로 수정하는 가격이 가장 저렴한 경우 DB를 한번 조회하여 캐시에 데이터가 없을 가능성을 없앤다.
+        // 아래 조건문들에 걸려 DB까지 조회되어 갱신되는 경우는 최저가, 최대가의 경우일 때만 발생하므로 거의 없다.
         if(newPrice.compareTo(minInBrand.getPrice()) <= 0
                 || saleCloth.getId().equals(minInBrand.getSaleClothId())) {
             if(newPrice.compareTo(originalPrice) > 0) {
@@ -150,13 +152,13 @@ public class InMemoryClothPriceCacheProvider implements ClothPriceCacheProvider 
             }
         }
 
-        // price로만 비교하므로 값은 같으나 다른 상품이 지워질 수 있다.
+        // price로만 비교하므로 값이 중복될 경우 1개의 상품만 유지되므로 다른 상품이 지워질 수 있다.
         ClothInfo compareCacheInBrand = brandSaleCache.get(brandId).get(category).get(clothInfo);
         if(compareCacheInBrand.equals(clothInfo)) {
             brandSaleCache.get(brandId).get(category).remove(clothInfo);
         }
 
-        // price로만 비교하므로 값은 같으나 다른 상품이 지워질 수 있다.
+        // price로만 비교하므로 값이 중복될 경우 1개의 상품만 유지되므로 다른 상품이 지워질 수 있다.
         ClothInfo compareCacheInCategory = categorySaleCache.get(category).get(clothInfo);
         if(compareCacheInCategory.equals(clothInfo)) {
             categorySaleCache.get(category).remove(clothInfo);

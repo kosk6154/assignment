@@ -13,8 +13,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
@@ -23,7 +21,7 @@ import java.util.Objects;
 @Table(
         name = "sale_cloth",
         indexes = {
-                @Index(name = "idx_category_brand_price", columnList = "cloth_category_code, brand_id, price"),
+                @Index(name = "idx_brand_category_price", columnList = "brand_id, cloth_category_code, price"),
                 @Index(name = "idx_category_price", columnList = "cloth_category_code, price")
         }
 )
@@ -76,6 +74,11 @@ public class SaleCloth {
 //    @Column(name = "cloth_size")
 //    private Integer clothSize;
 
+    /*
+     * 활성유무, 특정 기간동안 판매 등을 넣을 경우
+     * 캐시쪽에서 고려해야 할 사항이 너무 많아져 과제가 너무 복잡해진다.
+     * 고려는 해봤으나 우선 제외한다.
+     */
 //    @Column(name = "is_enable", nullable = false)
 //    private Boolean isEnable;
 

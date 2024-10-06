@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static com.example.assignment.common.model.entity.QBrand.brand;
 import static com.example.assignment.common.model.entity.QClothCategory.clothCategory;
 import static com.example.assignment.common.model.entity.QSaleCloth.saleCloth;
 

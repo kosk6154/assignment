@@ -23,6 +23,8 @@ public class CustomErrorController extends AbstractErrorController {
      * /error 페이지 핸들러가 없어서 다시 오류를 발생시키면서
      * 오류페이지가 무한한 순환을 하게 되며 오류가 발생한다.
      *
+     * @author kokyeomjae
+     * @version 0.0.1
      * @param request
      * @return
      */

@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 브랜드 및 상품을 관리하기 위한 controller
+ * @author kokyeomjae
+ * @version 0.0.1
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/admin")
+@RequestMapping("/i1/admin")
 public class AdminController {
 
     private final AdminService adminService;

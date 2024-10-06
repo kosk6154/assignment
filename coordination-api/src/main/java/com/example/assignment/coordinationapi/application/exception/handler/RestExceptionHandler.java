@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * 전역 오류 핸들러
  * ControllerAdvice를 이용하여 오류처리 한다.
  * 서비스를 위한 api와 admin용 api가 같이 들어있으므로 오류 메시지는 최대한 숨긴다.
+ * @author kokyeomjae
+ * @version 0.0.1
  * @param <T>
  */
 @Slf4j
