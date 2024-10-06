@@ -1,0 +1,63 @@
+logging.level:
+  org.hibernate.orm.jdbc.bind: trace
+  com.example.assignment: DEBUG
+
+server:
+  tomcat:
+    threads:
+      # test이므로..
+      max: 10
+      min-spare: 10
+    connection-timeout: 3000
+  error:
+    include-exception: false
+    include-stacktrace: NEVER
+    whitelabel:
+      enabled: false
+  shutdown: graceful
+
+spring:
+  datasource:
+    assignment:
+      driver-class-name: org.h2.Driver
+      jdbcUrl: 'jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE'
+      username: sa
+      password:
+      hikari:
+        connection-test-query: SELECT 1
+        minimum-idle: 5
+        maximum-pool-size: 5
+        connectionTimeout: 30000
+        idleTimeout: 3000
+        maxLifetime: 3000
+        auto-commit: true
+        pool-name: COORDINATION-API
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+  jpa:
+    database-platform: H2
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        show_sql: true
+        use-sql-comments: false
+    open-in-view: false
+    show-sql: true
+
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
+    path: /assignment/swagger-ui.html
+  api-docs:
+    path: /assignment/api-docs
+

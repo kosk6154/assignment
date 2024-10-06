@@ -1,0 +1,4 @@
+rootProject.name = 'assignment'
+include 'coordination-api'
+include 'coordination-common'
+

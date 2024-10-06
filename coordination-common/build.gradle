@@ -1,0 +1,50 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.1.0"
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    implementation "com.fasterxml.jackson.core:jackson-core:2.17.2"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.17.2"
+
+    // @Entity, @CreationTimestamp 등에 사용
+    implementation "jakarta.persistence:jakarta.persistence-api:3.1.0"
+    implementation "org.hibernate:hibernate-core:6.5.3.Final"
+
+    api "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+}
+
+
+// Querydsl 설정부
+def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
+}
+
+// java source set 에 querydsl QClass 위치 추가
+sourceSets {
+    main.java.srcDirs += [querydslDir]
+}
+
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {
+    file(querydslDir).deleteDir()
+}
