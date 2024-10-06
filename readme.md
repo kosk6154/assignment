@@ -14,9 +14,10 @@
   1. `./gradlew :coordination-api:clean :coordination-api:build` 실행
   2. `java -jar coordination-api/build/libs/coordination-api.jar` 실행
 * docker인 경우
-  1. `docker build --build-arg MODULE_NAME=coordination-api -t assignment .` 실행
-  2. `docker run -d --name assignment -p 8080:8080 assignment` 실행
-  3. 종료시에는 `docker rm -f assignment` 하시면 됩니다.
+  1. `./gradlew :coordination-api:clean :coordination-api:build` 실행
+  2. `docker build --build-arg MODULE_NAME=coordination-api -t assignment .` 실행
+  3. `docker run -d --name assignment -p 8080:8080 assignment` 실행
+  4. 종료시에는 `docker rm -f assignment` 하시면 됩니다.
   
 ## 개요
 본래 redis로 구성하려 하였으나 DB 사용은 H2만 사용해야하는 조건이 있어, H2 DB(memory)와 메모리에 java의 HashMap, TreeMap등을 이용하여 캐싱하는 방식으로 구현 하였습니다.  
