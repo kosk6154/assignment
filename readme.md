@@ -42,6 +42,7 @@ join을 사용할 경우 fetch join을 사용하였습니다.
 h2의 접근 url은 다음과 같습니다.  
 http://localhost:8080/h2-console  
 user는 `sa` 이며 비밀번호는 없습니다.  
+jdbc url을 `jdbc:h2:mem:test` 로 하시면 됩니다.
 
 swagger의 경우 javadoc의 설명이 description으로 지정되게끔 되어 있고, url은 다음과 같습니다.  
 http://localhost:8080/assignment/swagger-ui.html  
